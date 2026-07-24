@@ -11,7 +11,7 @@ from engine.openings import (
     opening_for_game,
     pgn_to_uci,
 )
-from engine.selfplay import play_game_gen, GATE_OPENING_PLIES
+from engine.selfplay import play_game_gen
 from engine.config import Config
 from engine.network import ChessNet
 from engine.train import play_match
@@ -23,12 +23,12 @@ def test_default_masters_book_path_exists() -> None:
 
 def test_load_default_gate_openings() -> None:
     openings = load_default_gate_openings()
-    assert len(openings) == 64
-    assert openings[0][:2] == ["e2e4", "c7c5"]  # Sicilian
-    assert openings[1][:4] == ["e2e4", "e7e5", "g1f3", "b8c6"]  # Ruy setup
-    # All lines legal and nonempty
+    assert len(openings) == 128
+    assert openings[0][:4] == ["e2e4", "c7c5", "b1c3", "b8c6"]  # Closed Sicilian
+    assert openings[1][:3] == ["d2d4", "g8f6", "c1g5"]  # Trompowsky
+    # All lines legal and nonempty (book depth may exceed GATE_OPENING_PLIES log window)
     for line in openings:
-        assert 1 <= len(line) <= GATE_OPENING_PLIES
+        assert len(line) >= 1
         board = chess.Board()
         for uci in line:
             board.push_uci(uci)
@@ -108,7 +108,20 @@ def test_play_match_uses_book_for_both_colors() -> None:
 
 def test_load_opening_book_custom_path() -> None:
     openings = load_opening_book(DEFAULT_MASTERS_OPENINGS_PATH)
-    assert len(openings) == 64
+    assert len(openings) == 128
+
+
+def test_pgn_to_uci_keeps_check_suffix_moves() -> None:
+    # Top-128 book includes Bb4+; parser must not drop the check marker token.
+    assert pgn_to_uci("1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 4. Bd2") == [
+        "d2d4",
+        "g8f6",
+        "c2c4",
+        "e7e6",
+        "g1f3",
+        "f8b4",
+        "c1d2",
+    ]
 
 
 def test_play_match_parallel_preserves_book_pairing(tmp_path) -> None:

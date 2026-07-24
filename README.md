@@ -8,7 +8,7 @@ It learns purely from self-play (no human games, no Stockfish). Optional human-g
 
 - **Self-play training** with football-style draw shaping (`draw_penalty = 1/3`: a draw scores like one-third of a win).
 - **Parallel self-play** across worker processes (`--selfplay-workers`) for higher throughput on multi-core GPU hosts.
-- **SPRT strength gates** — sequential probability ratio tests with early stop (cap 128 games, H₀=0 Elo vs H₁=+25 Elo). Logs PASS / FAIL / INCONCLUSIVE; does not auto-reject checkpoints yet.
+- **SPRT strength gates** — sequential probability ratio tests with early stop (cap 256 games, masters top-128 book × both colors, H₀=0 Elo vs H₁=+25 Elo). Logs PASS / FAIL / INCONCLUSIVE; does not auto-reject checkpoints yet.
 - **Beauty-bias move selection** (optional): among sound moves, prefer sacrificial / attacking / tactical / surprising lines.
 - **Analysis GUI**: board, eval bar, best-move arrow, top-5 MultiPV lines, PGN/FEN import, move navigation.
 - **UCI-compatible** for Arena, Cutechess, or Lichess local-engine mode.
@@ -93,7 +93,7 @@ These override the `--gpu` preset when passed on the CLI. Resume always keeps th
 | LR | 2.5e-4 constant | 2.5e-4 constant |
 | Training span | stop at iters 160, 180, … | stop at iters 160, 180, … |
 | In-loop gate | off | off |
-| Manual gate (SPRT cap) | 128 games | 128 games |
+| Manual gate (SPRT cap) | 256 games | 256 games |
 | Manual gate sims | 100 | 100 |
 | Save snapshot | every 10 iters | every 10 iters |
 

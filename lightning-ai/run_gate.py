@@ -19,13 +19,13 @@ from typing import Any
 CHECKPOINT_A: int | str = 20
 CHECKPOINT_B: int | str = 0
 
-GATE_GAMES = 128
+GATE_GAMES = 256
 GATE_SIMS = 100
 GATE_WORKERS = 4
 GATE_CONCURRENCY = 128
 # Masters book forces starts; no temperature after book (matches Colab TRAIN).
 GATE_EXPLORATION_MOVES = 0
-GATE_OPENINGS = "masters"  # "masters" | "none" | path to TSV
+GATE_OPENINGS = "masters"  # "masters" | "none" | path to TSV (default top-128)
 DRAW_PENALTY = 1 / 3
 
 
