@@ -1,4 +1,9 @@
-# Immortalite Zero
+> **Archived.** This pure-Python Immortalite Zero is frozen as a historical / parity-oracle reference.
+> The canonical product is the hybrid C++/Python engine:
+> **[https://github.com/carlo-wong/immortalite-zero](https://github.com/carlo-wong/immortalite-zero)**
+> (this archive repo: `immortalite-zero-python`).
+
+# Immortalite Zero (pure Python — archived)
 
 A **lightweight, self-play chess engine** in the AlphaZero family (neural network + MCTS, not brute-force search), tuned for **decisive, attacking** play via draw shaping — wrapped in a Lichess-style web analysis tool and UCI front-end.
 
